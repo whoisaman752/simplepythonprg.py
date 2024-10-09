@@ -1,0 +1,153 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+// Structure to define a stack
+typedef struct {
+    char data[MAX][MAX];
+    int top;
+} Stack;
+
+// Function to initialize the stack
+void init(Stack* stack) {
+    stack->top = -1;
+}
+
+// Function to check if the stack is empty
+int isEmpty(Stack* stack) {
+    return stack->top == -1;
+}
+
+// Function to push an element onto the stack
+void push(Stack* stack, char* text) {
+    if (stack->top < MAX - 1) {
+        strcpy(stack->data[++stack->top], text);
+    } else {
+        printf("Stack overflow!\n");
+    }
+}
+
+// Function to pop an element from the stack
+char* pop(Stack* stack) {
+    if (!isEmpty(stack)) {
+        return stack->data[stack->top--];
+    } else {
+        printf("Stack underflow!\n");
+        return "";
+    }
+}
+
+// Function to get the top element of the stack
+char* peek(Stack* stack) {
+    if (!isEmpty(stack)) {
+        return stack->data[stack->top];
+    } else {
+        return "";
+    }
+}
+
+// Function to display the current text
+void displayText(char* currentText) {
+    printf("Current Text: %s\n", currentText);
+}
+
+int main() {
+    Stack undoStack, redoStack;
+    init(&undoStack);
+    init(&redoStack);
+
+    char currentText[MAX] = "";  // Start with an empty string
+    char buffer[MAX];
+    int choice;
+
+    while (1) {
+        printf("\nText Editor Menu:\n");
+        printf("1. Add Text\n");
+        printf("2. Delete Last Word\n");
+        printf("3. Undo\n");
+        printf("4. Redo\n");
+        printf("5. Display Text\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        getchar();  // To consume the newline after choice input
+
+        switch (choice) {
+            case 1:
+                printf("Enter text to add: ");
+                fgets(buffer, MAX, stdin);
+                buffer[strcspn(buffer, "\n")] = 0;  // Remove newline character
+
+                // Push current state to the undo stack
+                push(&undoStack, currentText);
+                
+                // Add new text
+                strcat(currentText, buffer);
+
+                // Clear the redo stack since new change happened
+                init(&redoStack);
+                break;
+
+            case 2: {
+                // Push current state to the undo stack
+                push(&undoStack, currentText);
+
+                // Delete the last word
+                int len = strlen(currentText);
+                if (len > 0) {
+                    for (int i = len - 1; i >= 0; i--) {
+                        if (currentText[i] == ' ' || i == 0) {
+                            currentText[i] = '\0';
+                            break;
+                        }
+                    }
+                } else {
+                    printf("No text to delete!\n");
+                }
+
+                // Clear the redo stack since new change happened
+                init(&redoStack);
+                break;
+            }
+
+            case 3:
+                if (!isEmpty(&undoStack)) {
+                    // Push current state to redo stack before undoing
+                    push(&redoStack, currentText);
+
+                    // Pop the last state from the undo stack
+                    strcpy(currentText, pop(&undoStack));
+                } else {
+                    printf("Nothing to undo!\n");
+                }
+                break;
+
+            case 4:
+                if (!isEmpty(&redoStack)) {
+                    // Push current state to undo stack before redoing
+                    push(&undoStack, currentText);
+
+                    // Pop the last state from the redo stack
+                    strcpy(currentText, pop(&redoStack));
+                } else {
+                    printf("Nothing to redo!\n");
+                }
+                break;
+
+            case 5:
+                displayText(currentText);
+                break;
+
+            case 6:
+                printf("Exiting the text editor...\n");
+                exit(0);
+
+            default:
+                printf("Invalid choice! Try again.\n");
+        }
+    }
+
+    return 0;
+}
