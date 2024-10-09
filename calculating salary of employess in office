@@ -1,0 +1,115 @@
+class Employee:
+    def __init__(self, name, hourly_rate, hours_worked):
+        self.name = name
+        self.hourly_rate = hourly_rate
+        self.hours_worked = hours_worked
+
+    def calculate_salary(self):
+        return self.hourly_rate * self.hours_worked
+
+# Example usage:
+if __name__ == "__main__":
+    emp1 = Employee("Alice", 50, 160)
+    emp2 = Employee("Bob", 45, 150)
+    
+    print(f"{emp1.name}'s salary: ${emp1.calculate_salary()}")
+    print(f"{emp2.name}'s salary: ${emp2.calculate_salary()}")
+class Employee:
+    def __init__(self, name, hourly_rate, regular_hours, overtime_hours):
+        self.name = name
+        self.hourly_rate = hourly_rate
+        self.regular_hours = regular_hours
+        self.overtime_hours = overtime_hours
+
+    def calculate_salary(self):
+        regular_salary = self.hourly_rate * self.regular_hours
+        overtime_salary = (self.hourly_rate * 1.5) * self.overtime_hours
+        return regular_salary + overtime_salary
+
+# Example usage:
+if __name__ == "__main__":
+    emp1 = Employee("Alice", 50, 160, 10)
+    emp2 = Employee("Bob", 45, 150, 5)
+    
+    print(f"{emp1.name}'s salary with overtime: ${emp1.calculate_salary()}")
+    print(f"{emp2.name}'s salary with overtime: ${emp2.calculate_salary()}")
+class Employee:
+    def __init__(self, name, base_salary, bonus=0, deductions=0):
+        self.name = name
+        self.base_salary = base_salary
+        self.bonus = bonus
+        self.deductions = deductions
+
+    def calculate_salary(self):
+        return self.base_salary + self.bonus - self.deductions
+
+# Example usage:
+if __name__ == "__main__":
+    emp1 = Employee("Alice", 5000, bonus=500, deductions=300)
+    emp2 = Employee("Bob", 4500, bonus=200, deductions=400)
+    
+    print(f"{emp1.name}'s final salary: ${emp1.calculate_salary()}")
+    print(f"{emp2.name}'s final salary: ${emp2.calculate_salary()}")
+class Employee:
+    def __init__(self, name, base_salary, bonus=0, deductions=0):
+        self.name = name
+        self.base_salary = base_salary
+        self.bonus = bonus
+        self.deductions = deductions
+
+    def calculate_salary(self):
+        return self.base_salary + self.bonus - self.deductions
+
+def calculate_salaries(employees):
+    for emp in employees:
+        salary = emp.calculate_salary()
+        print(f"{emp.name}'s final salary: ${salary}")
+
+# Example usage:
+if __name__ == "__main__":
+    employees = [
+        Employee("Alice", 5000, bonus=500, deductions=300),
+        Employee("Bob", 4500, bonus=200, deductions=400),
+        Employee("Charlie", 6000, bonus=800, deductions=500)
+    ]
+    
+    calculate_salaries(employees)
+class Employee:
+    def __init__(self, name, base_salary, sales, commission_rate):
+        self.name = name
+        self.base_salary = base_salary
+        self.sales = sales
+        self.commission_rate = commission_rate
+
+    def calculate_salary(self):
+        commission = self.sales * self.commission_rate
+        return self.base_salary + commission
+
+# Example usage:
+if __name__ == "__main__":
+    emp1 = Employee("Alice", 3000, sales=10000, commission_rate=0.1)
+    emp2 = Employee("Bob", 3500, sales=8000, commission_rate=0.08)
+    
+    print(f"{emp1.name}'s salary with commission: ${emp1.calculate_salary()}")
+    print(f"{emp2.name}'s salary with commission: ${emp2.calculate_salary()}")
+class Employee:
+    def __init__(self, name, base_salary, performance_rating):
+        self.name = name
+        self.base_salary = base_salary
+        self.performance_rating = performance_rating
+
+    def calculate_salary(self):
+        bonus = 0
+        if self.performance_rating > 4:
+            bonus = self.base_salary * 0.2  # 20% bonus for excellent performance
+        elif self.performance_rating > 3:
+            bonus = self.base_salary * 0.1  # 10% bonus for good performance
+        return self.base_salary + bonus
+
+# Example usage:
+if __name__ == "__main__":
+    emp1 = Employee("Alice", 4000, performance_rating=4.5)
+    emp2 = Employee("Bob", 4000, performance_rating=3.8)
+    
+    print(f"{emp1.name}'s salary with performance bonus: ${emp1.calculate_salary()}")
+    print(f"{emp2.name}'s salary with performance bonus: ${emp2.calculate_salary()}")
